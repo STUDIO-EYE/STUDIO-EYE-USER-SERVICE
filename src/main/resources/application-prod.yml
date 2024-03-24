@@ -1,60 +1,86 @@
-server:
-  port: 8081
+#server:
+#  port: 8081
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+#
+#  redis:
+#    host: redis
+#    port: 6379
+#
+#  application:
+#    name: User-Service
+#
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: ENC(IiuEBphb1S9PmnqVHOLwRbRwEo1POJmm42W7J/XS3s7Eeh02Kt7VVi62X8v2+JZYYSNNuy2n8B+UYKLkxMBeDzQ/4t4PuorJtR2W8EKHWXdkUgZc+ppIztrCLhxqQ0ohm/oNkMlNiBy+ZC6bsQe3UE/g1SVsKHFvh+ndsQoD/+PlyljVCs6eog==)
+#    username: ENC(R9ELUhikhPOj9EworsW/Nw==)
+#    password: ENC(JPbOCKIfxPLVNTSoWB7TYrmLrB0Pup/c)
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        format_sql: true
+#
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: ENC(I+PDk31WFTOU39AypeTrZFVbb8MSpV9oL9q2C3HGQD8/1+Wj7fVmMw==)
+#    password: ENC(TRk22TqlQbz1iTprwMnpiEMZLFAarFDjMf/iTDTnDCw=)
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#            required: true
+#          connection-timeout: 5000
+#          timeout: 5000
+#          write timeout: 5000
+#    auth-code-expiration-millis: 600000 # 10분
+#
+#eureka:
+#  instance:
+#    hostname : 52.78.155.253
+#    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://13.125.181.139:8761/eureka
+#
 
 spring:
   config:
     activate:
       on-profile: prod
-
-  redis:
-    host: redis
-    port: 6379
-
   application:
-    name: User-Service
+    name: Management-Service
 
   datasource:
+    url:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(IiuEBphb1S9PmnqVHOLwRbRwEo1POJmm42W7J/XS3s7Eeh02Kt7VVi62X8v2+JZYYSNNuy2n8B+UYKLkxMBeDzQ/4t4PuorJtR2W8EKHWXdkUgZc+ppIztrCLhxqQ0ohm/oNkMlNiBy+ZC6bsQe3UE/g1SVsKHFvh+ndsQoD/+PlyljVCs6eog==)
-    username: ENC(R9ELUhikhPOj9EworsW/Nw==)
-    password: ENC(JPbOCKIfxPLVNTSoWB7TYrmLrB0Pup/c)
+    username:
+    password:
 
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+
+    #배포 할 때는 open-in-view false 설정
+    open-in-view: false
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ENC(I+PDk31WFTOU39AypeTrZFVbb8MSpV9oL9q2C3HGQD8/1+Wj7fVmMw==)
-    password: ENC(TRk22TqlQbz1iTprwMnpiEMZLFAarFDjMf/iTDTnDCw=)
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          connection-timeout: 5000
-          timeout: 5000
-          write timeout: 5000
-    auth-code-expiration-millis: 600000 # 10분
+#greeting:
+#  message: Welcome to the Ice-Americano Page
 
-eureka:
-  instance:
-    hostname : 52.78.155.253
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://13.125.181.139:8761/eureka
-
-greeting:
-  message: Welcome to the Ice-Americano Page
-
-secretKey: amazing
+#secretKey: amazing
