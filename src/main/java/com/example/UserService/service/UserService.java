@@ -7,6 +7,7 @@ import com.example.UserService.dto.UserResponse;
 import com.example.UserService.vo.RequestLogin;
 import com.example.UserService.vo.RequestUser;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService{
@@ -26,4 +27,6 @@ public interface UserService{
     void sendCodeToEmail(String toEmail);
 
     EmailVerificationResult verifiedCode(String email, String authCode);
+
+    List<Long> getAllApprovedUserIds();
 }

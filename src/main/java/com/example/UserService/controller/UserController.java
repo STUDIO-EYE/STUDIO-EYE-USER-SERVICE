@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user-service")
@@ -74,6 +76,12 @@ public class UserController {
             String message = exceptionCode.getMessage();
             return ResponseEntity.status(status).body(new UserResponse(message));
         }
+    }
+
+    @GetMapping("/users-id/all")
+    public ResponseEntity<List<Long>> getAllApprovedUserIds() {
+        List<Long> userIds = userService.getAllApprovedUserIds();
+        return ResponseEntity.ok(userIds);
     }
 
     //토큰 재발급

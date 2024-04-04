@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -177,5 +178,10 @@ public class UserServiceImpl implements UserService{
         boolean authResult = redisService.checkExistsValue(redisAuthCode) && redisAuthCode.equals(authCode);
 
         return EmailVerificationResult.of(authResult);
+    }
+
+    @Override
+    public List<Long> getAllApprovedUserIds() {
+        return userRepository.getAllApprovedUserIds();
     }
 }

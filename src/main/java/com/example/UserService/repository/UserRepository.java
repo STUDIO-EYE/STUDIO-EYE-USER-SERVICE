@@ -3,7 +3,9 @@ package com.example.UserService.repository;
 import com.example.UserService.domain.UserEntity;
 import com.example.UserService.dto.UserResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
@@ -35,4 +37,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                 userEntity.getPhoneNumber(),
                 userEntity.isApproved());
     }
+
+    @Query("SELECT u.id FROM UserEntity u WHERE u.isApproved = true")
+    List<Long> getAllApprovedUserIds();
 }
