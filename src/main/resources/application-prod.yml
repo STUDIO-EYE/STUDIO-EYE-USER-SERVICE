@@ -14,8 +14,9 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host:
       port: 6379
+      password:
 
   #JPA 설정
   jpa:
@@ -34,14 +35,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url:
     username:
-    password: 
+    password:
 
   mail:
     host: smtp.gmail.com
     port: 587 #TLS : 587, SSL : 465
-#    username: ENC(Z5N6xQWGf12Y0PVBB6EnVVVSjzhFG2msBboALjTUitSzYHoIpd0RSQ==)
     username:
-#    password: ENC(P6Mn7j0vjT5fRUox4G69fauwhN2uoCpVJHL7ci5LIiM=)
     password:
     properties:
       mail:
@@ -55,16 +54,14 @@ spring:
           write timeout: 5000
     auth-code-expiration-millis: 600000 # 10분
 
-#eureka:
-#  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://13.125.181.139:8761/eureka
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone:
 
 greeting:
   message: Welcome to the Studio-eye Page
 
-secretKey: amazing
+secretKey:
