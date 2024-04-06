@@ -36,6 +36,9 @@ public class UserEntity {
     @Column(nullable = false)
     private boolean isApproved;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     private UserEntity(Optional<UserEntity> userEntity) {
         this.id = id;
         this.product_id = product_id;
@@ -44,6 +47,7 @@ public class UserEntity {
         this.phoneNumber = phoneNumber;
         this.encryptedPwd = encryptedPwd;
         this.isApproved = isApproved;
+        this.role = role;
     }
 
     public UserEntity() {

@@ -63,7 +63,11 @@ public class UserServiceImpl implements UserService{
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Long userId = myUserDetailsService.findUserIdByEmail(requestLogin.getEmail());
-        JWTAuthResponse token = jwtTokenProvider.generateToken(requestLogin.getEmail(), authentication, userId);
+
+        UserEntity user = userRepository.findById(userId).orElseThrow(); // new ExceptionCode.MEMBER_NOT_FOUND
+
+//        JWTAuthResponse token = jwtTokenProvider.generateToken(requestLogin.getEmail(), authentication, userId);
+        JWTAuthResponse token = jwtTokenProvider.generateToken(requestLogin.getEmail(), authentication, userId, user.getRole());
         return token;
     }
 
@@ -112,7 +116,7 @@ public class UserServiceImpl implements UserService{
         if (redisService.checkExistsValue(redisRefreshToken) && refreshToken.equals(redisRefreshToken)) {
             Optional<UserEntity> findUser = this.findOne(email);
             UserEntity userEntity = UserEntity.of(findUser);
-            JWTAuthResponse tokenDto = jwtTokenProvider.generateToken(email, jwtTokenProvider.getAuthentication(refreshToken), userEntity.getId());
+            JWTAuthResponse tokenDto = jwtTokenProvider.generateToken(email, jwtTokenProvider.getAuthentication(refreshToken), userEntity.getId(), userEntity.getRole());
             String newAccessToken = tokenDto.getAccessToken();
             long refreshTokenExpirationMillis = jwtTokenProvider.getRefreshTokenExpirationMillis();
             return tokenDto;
