@@ -1,5 +1,6 @@
 package com.example.UserService.vo;
 
+import com.example.UserService.domain.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,5 +27,8 @@ public class RequestUser {
     @NotNull(message = "전화번호를 입력해주세요")
     @Size(min = 10, max = 15, message = "전화번호는 10자에서 15자 사이여야 합니다")
     private String phoneNumber;
+
+    @NotNull(message = "권한을 입력해주세요")
+    private Role role;
 
 }
