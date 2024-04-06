@@ -37,6 +37,7 @@ public class UserEntity {
     private boolean isApproved;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     private UserEntity(Optional<UserEntity> userEntity) {
