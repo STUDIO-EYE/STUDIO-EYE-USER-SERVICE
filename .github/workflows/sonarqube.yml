@@ -12,11 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: SonarQube analysis
+      # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
+      - name: Sonarqube Analysis
         run: |
-          sonar-scanner \
+          ./gradlew sonarqube \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+
+#
+#        run: |
+#          sonar-scanner \
+#            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+#            -Dsonar.login=${{ secrets.SONAR_LOGIN }}
           
 
 #      # gradlw 파일 권한 변경
