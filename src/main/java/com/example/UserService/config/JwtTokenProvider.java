@@ -82,6 +82,7 @@ public class JwtTokenProvider {
         response.setTokenType(BEARER);
         response.setAccessTokenExpireDate(ACCESS_TOKEN_VALID_TIME);
         response.setRole(role);
+        response.setId(userId);
         return response;
     }
 
