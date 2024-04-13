@@ -19,7 +19,7 @@ jobs:
       # Gralde 의 Scanner 발동, 위의 env 에서 선언한 환경변수와 함께 발동
       - name: Sonarqube Analysis
         run: |
-          ./gradlew sonarqube \
+          ./gradlew build sonarqube \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
