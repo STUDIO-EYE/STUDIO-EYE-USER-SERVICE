@@ -12,12 +12,14 @@ import com.example.UserService.exception.ExceptionCode;
 import com.example.UserService.repository.UserRepository;
 import com.example.UserService.vo.RequestLogin;
 import com.example.UserService.vo.RequestUser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -187,5 +190,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<Long> getAllApprovedUserIds() {
         return userRepository.getAllApprovedUserIds();
+    }
+
+    @Override
+    public ResponseEntity unregister(Long userId) {
+        userRepository.deleteById(userId);
+
+        return null;
     }
 }
