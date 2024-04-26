@@ -6,6 +6,8 @@ import com.example.UserService.dto.JWTAuthResponse;
 import com.example.UserService.dto.UserResponse;
 import com.example.UserService.vo.RequestLogin;
 import com.example.UserService.vo.RequestUser;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,4 +31,6 @@ public interface UserService{
     EmailVerificationResult verifiedCode(String email, String authCode);
 
     List<Long> getAllApprovedUserIds();
+
+    ResponseEntity unregister(Long userId);
 }

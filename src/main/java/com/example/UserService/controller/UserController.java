@@ -110,5 +110,11 @@ public class UserController {
         EmailVerificationResult response = userService.verifiedCode(email, authCode);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    //회원 탈퇴
+    @DeleteMapping("/unregister")
+    public ResponseEntity unregister(@RequestParam("userId") @Valid Long userId) {
+        return userService.unregister(userId);
+    }
 }
 
