@@ -209,4 +209,12 @@ public class UserServiceImpl implements UserService{
         }
         return userResponses;
     }
+
+    @Override
+    public boolean updateApproved(Long userId, boolean approved) {
+        UserEntity user = userRepository.findById(userId).orElseThrow();
+        user.setApproved(approved);
+        userRepository.save(user);
+        return user.isApproved();
+    }
 }

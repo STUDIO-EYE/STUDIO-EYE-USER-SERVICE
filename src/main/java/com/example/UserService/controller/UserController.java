@@ -123,4 +123,12 @@ public class UserController {
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
+
+    //승인 여부 변경
+    @PutMapping("/approve")
+    public ResponseEntity approveUser(@RequestParam("userId") @Valid Long userId,
+                                      @RequestParam("approved") boolean approved) {
+        boolean isApproved = userService.updateApproved(userId, approved);
+        return ResponseEntity.ok().body(isApproved);
+    }
 }
