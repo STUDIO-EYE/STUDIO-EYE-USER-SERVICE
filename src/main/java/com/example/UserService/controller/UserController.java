@@ -31,23 +31,23 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/health_check")
-    public String status(){
+    public String status() {
         return "It's Working in User Service";
     }
 
     @GetMapping("/welcome")
-    public String welcome(){
+    public String welcome() {
         return env.getProperty("greeting.message");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JWTAuthResponse> login(@RequestBody RequestLogin requestLogin){
+    public ResponseEntity<JWTAuthResponse> login(@RequestBody RequestLogin requestLogin) {
         JWTAuthResponse token = userService.login(requestLogin);
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RequestUser requestUser){
+    public ResponseEntity<String> register(@RequestBody RequestUser requestUser) {
         String response = userService.register(requestUser);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -87,7 +87,7 @@ public class UserController {
     //토큰 재발급
     @PatchMapping("/reissue")
     public ResponseEntity<JWTAuthResponse> reissue(HttpServletRequest request,
-                                  HttpServletResponse response) {
+                                                   HttpServletResponse response) {
 
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
         JWTAuthResponse newAccessToken = userService.reissueAccessToken(refreshToken);
@@ -116,5 +116,19 @@ public class UserController {
     public ResponseEntity unregister(@RequestParam("userId") @Valid Long userId) {
         return userService.unregister(userId);
     }
-}
 
+    //모든 회원 정보 반환
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    //승인 여부 변경
+    @PutMapping("/approve")
+    public ResponseEntity approveUser(@RequestParam("userId") @Valid Long userId,
+                                      @RequestParam("approved") boolean approved) {
+        boolean isApproved = userService.updateApproved(userId, approved);
+        return ResponseEntity.ok().body(isApproved);
+    }
+}

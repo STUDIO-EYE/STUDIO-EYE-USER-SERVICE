@@ -1,6 +1,5 @@
 package com.example.UserService.config;
 
-import com.example.UserService.domain.Role;
 import com.example.UserService.dto.JWTAuthResponse;
 import com.example.UserService.service.RedisService;
 import io.jsonwebtoken.*;
@@ -8,7 +7,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,14 +45,12 @@ public class JwtTokenProvider {
     }
 
     // generate JWT token
-//    public JWTAuthResponse generateToken(String email, Authentication authentication, Long userId) {
-    public JWTAuthResponse generateToken(String email, Authentication authentication, Long userId, Role role) {
+    public JWTAuthResponse generateToken(String email, Authentication authentication, Long userId) {
         String username = authentication.getName();
 
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("username", username);
         claims.put("userId", userId);
-        claims.put("role", role);
 
         Date currentDate = new Date();
         Date accessTokenExpireDate = new Date(currentDate.getTime() + ACCESS_TOKEN_VALID_TIME);
@@ -81,7 +77,6 @@ public class JwtTokenProvider {
         response.setRefreshToken(refreshToken);
         response.setTokenType(BEARER);
         response.setAccessTokenExpireDate(ACCESS_TOKEN_VALID_TIME);
-        response.setRole(role);
         response.setId(userId);
         return response;
     }
