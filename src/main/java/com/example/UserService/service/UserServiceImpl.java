@@ -200,6 +200,12 @@ public class UserServiceImpl implements UserService{
 
         return null;
     }
+
+    @Override
+    public List<UserResponse> getAllUsers() {
+        List<UserResponse> userResponses = userRepository.findAllUsers();
+        if (userResponses == null) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
         return userResponses;
     }

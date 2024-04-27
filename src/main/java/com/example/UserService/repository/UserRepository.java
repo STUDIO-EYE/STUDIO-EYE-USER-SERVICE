@@ -5,6 +5,7 @@ import com.example.UserService.dto.UserResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,4 +43,19 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("SELECT u.id FROM UserEntity u WHERE u.isApproved = true")
     List<Long> getAllApprovedUserIds();
+
+    default List<UserResponse> findAllUsers(){
+        List<UserEntity> userEntityList = findAll();
+        List<UserResponse> userResponseList = new ArrayList<>();
+        for(UserEntity userEntity : userEntityList) {
+            userResponseList.add (new UserResponse(
+                    userEntity.getId(),
+                    userEntity.getEmail(),
+                    userEntity.getName(),
+                    userEntity.getPhoneNumber(),
+                    userEntity.getCreatedAt(),
+                    userEntity.isApproved()));
+        }
+        return userResponseList;
+    }
 }

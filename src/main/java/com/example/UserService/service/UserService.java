@@ -33,4 +33,6 @@ public interface UserService{
     List<Long> getAllApprovedUserIds();
 
     ResponseEntity unregister(Long userId);
+
+    List<UserResponse> getAllUsers();
 }
