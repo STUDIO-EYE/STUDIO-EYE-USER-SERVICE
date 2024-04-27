@@ -32,6 +32,7 @@ import java.nio.file.attribute.UserPrincipal;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService{
         UserEntity user = userRepository.findById(userId).orElseThrow(); // new ExceptionCode.MEMBER_NOT_FOUND
 
 //        JWTAuthResponse token = jwtTokenProvider.generateToken(requestLogin.getEmail(), authentication, userId);
-        JWTAuthResponse token = jwtTokenProvider.generateToken(requestLogin.getEmail(), authentication, userId, user.getRole());
+        JWTAuthResponse token = jwtTokenProvider.generateToken(requestLogin.getEmail(), authentication, userId);
         return token;
     }
 
@@ -87,6 +88,7 @@ public class UserServiceImpl implements UserService{
         UserEntity userEntity = mapper.map(requestUser, UserEntity.class);
         userEntity.setEncryptedPwd(pwdEncoder.encode(requestUser.getPwd()));
         userEntity.setApproved(false);
+        userEntity.setCreatedAt(LocalDate.now());
         userRepository.save(userEntity);
 
         return "User registered successfully!.";
@@ -119,7 +121,7 @@ public class UserServiceImpl implements UserService{
         if (redisService.checkExistsValue(redisRefreshToken) && refreshToken.equals(redisRefreshToken)) {
             Optional<UserEntity> findUser = this.findOne(email);
             UserEntity userEntity = UserEntity.of(findUser);
-            JWTAuthResponse tokenDto = jwtTokenProvider.generateToken(email, jwtTokenProvider.getAuthentication(refreshToken), userEntity.getId(), userEntity.getRole());
+            JWTAuthResponse tokenDto = jwtTokenProvider.generateToken(email, jwtTokenProvider.getAuthentication(refreshToken), userEntity.getId());
             String newAccessToken = tokenDto.getAccessToken();
             long refreshTokenExpirationMillis = jwtTokenProvider.getRefreshTokenExpirationMillis();
             return tokenDto;
@@ -197,5 +199,8 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteById(userId);
 
         return null;
+    }
+        }
+        return userResponses;
     }
 }

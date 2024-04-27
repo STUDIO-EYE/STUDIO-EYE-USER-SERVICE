@@ -24,6 +24,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                 userEntity.getEmail(),
                 userEntity.getName(),
                 userEntity.getPhoneNumber(),
+                userEntity.getCreatedAt(),
                 userEntity.isApproved());
         }
 
@@ -35,6 +36,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                 userEntity.getEmail(),
                 userEntity.getName(),
                 userEntity.getPhoneNumber(),
+                userEntity.getCreatedAt(),
                 userEntity.isApproved());
     }
 

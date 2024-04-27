@@ -1,6 +1,5 @@
 package com.example.UserService.dto;
 
-import com.example.UserService.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,5 @@ public class JWTAuthResponse {
     private String accessToken;
     private String refreshToken;
     private Long accessTokenExpireDate;
-    private Role role;
     private Long id;
 }
-
