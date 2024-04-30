@@ -1,6 +1,8 @@
 package com.example.UserService.config;
 
+import com.example.UserService.domain.UserEntity;
 import com.example.UserService.dto.JWTAuthResponse;
+import com.example.UserService.repository.UserRepository;
 import com.example.UserService.service.RedisService;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
@@ -17,6 +19,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -34,6 +37,8 @@ public class JwtTokenProvider {
     // Access Token 유효 기간 30분
     private final Long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;
 
+    private final UserRepository userRepository;
+
     private final MyUserDetailsService userDetailsService;
 
     private final RedisService redisService;
@@ -46,6 +51,8 @@ public class JwtTokenProvider {
 
     // generate JWT token
     public JWTAuthResponse generateToken(String email, Authentication authentication, Long userId) {
+
+        UserEntity user = userRepository.findById(userId).orElseThrow();
         String username = authentication.getName();
 
         Claims claims = Jwts.claims().setSubject(email);
@@ -78,6 +85,7 @@ public class JwtTokenProvider {
         response.setTokenType(BEARER);
         response.setAccessTokenExpireDate(ACCESS_TOKEN_VALID_TIME);
         response.setId(userId);
+        response.setApproved(user.isApproved());
         return response;
     }
 
