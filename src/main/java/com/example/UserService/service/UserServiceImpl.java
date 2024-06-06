@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService{
 
         // add check for email exists in database
         if(userRepository.existsByEmail(requestUser.getEmail())){
-            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!");
         }
 
         ModelMapper mapper = new ModelMapper();
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService{
         userEntity.setCreatedAt(LocalDate.now());
         userRepository.save(userEntity);
 
-        return "User registered successfully!.";
+        return "User registered successfully!";
     }
 
     @Override
