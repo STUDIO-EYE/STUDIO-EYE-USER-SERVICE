@@ -2,34 +2,30 @@ package com.example.UserService.service;
 
 import com.example.UserService.config.JwtTokenProvider;
 import com.example.UserService.config.MyUserDetailsService;
+import com.example.UserService.domain.UserEntity;
 import com.example.UserService.dto.EmailVerificationResult;
 import com.example.UserService.dto.JWTAuthResponse;
-import com.example.UserService.domain.UserEntity;
 import com.example.UserService.dto.UserResponse;
-import com.example.UserService.exception.BlogAPIException;
 import com.example.UserService.exception.BusinessLogicException;
 import com.example.UserService.exception.ExceptionCode;
 import com.example.UserService.repository.UserRepository;
 import com.example.UserService.vo.RequestLogin;
 import com.example.UserService.vo.RequestUser;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -79,9 +75,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public String register(RequestUser requestUser) {
 
-        // add check for email exists in database
+        // add check for email & phoneNumber exists in database
         if(userRepository.existsByEmail(requestUser.getEmail())){
-            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!");
+            throw new BusinessLogicException(ExceptionCode.EMAIL_DUPLICATE);
+        }
+        if (userRepository.existsByPhoneNumber(requestUser.getPhoneNumber())){
+            throw new BusinessLogicException(ExceptionCode.PHONE_NUMBER_DUPLICATE);
         }
 
         ModelMapper mapper = new ModelMapper();
@@ -160,8 +159,7 @@ public class UserServiceImpl implements UserService{
         Optional<UserEntity> userEntity = userRepository.findByEmail(email);
         if (userEntity.isPresent()) {
             log.debug("UserServiceImpl.checkDuplicatedEmail exception occur email: {}", email);
-            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
-            //존재하는 회원에 대해 이메일 입력 시 500에러를 뱉음 //MEMBER_EXISTS는 409임. 확인필요
+            throw new BusinessLogicException(ExceptionCode.EMAIL_DUPLICATE);
         }
     }
 
