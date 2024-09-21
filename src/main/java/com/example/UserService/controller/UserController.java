@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class UserController {
             return ResponseEntity.ok().body(userResponse);
         } catch (BusinessLogicException e) {
             ExceptionCode exceptionCode = e.getExceptionCode();
-            int status = exceptionCode.getStatus();
+            HttpStatus status = exceptionCode.getStatus();
             String message = exceptionCode.getMessage();
             return ResponseEntity.status(status).body(new UserResponse(message));
         }
@@ -72,7 +73,7 @@ public class UserController {
             return ResponseEntity.ok().body(userResponse);
         } catch (BusinessLogicException e) {
             ExceptionCode exceptionCode = e.getExceptionCode();
-            int status = exceptionCode.getStatus();
+            HttpStatus status = exceptionCode.getStatus();
             String message = exceptionCode.getMessage();
             return ResponseEntity.status(status).body(new UserResponse(message));
         }
